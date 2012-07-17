@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Tab 1</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFlamCreator">
+    <property name="title">
+     <string>Fichier</string>
+    </property>
+    <addaction name="actionNouveau_fichier"/>
+    <addaction name="actionOuvrir_une_fractale"/>
+    <addaction name="separator"/>
+    <addaction name="actionEnregistrer"/>
+    <addaction name="actionEnregistrer_sous"/>
+    <addaction name="separator"/>
+    <addaction name="actionFermer"/>
+    <addaction name="separator"/>
+    <addaction name="actionImprimer"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuitter"/>
+   </widget>
+   <widget class="QMenu" name="menuFen_tre">
+    <property name="title">
+     <string>Fenêtre</string>
+    </property>
+    <widget class="QMenu" name="menuPanneaux">
+     <property name="title">
+      <string>Panneaux</string>
+     </property>
+     <addaction name="actionParam_tres_de_la_fractale"/>
+    </widget>
+    <addaction name="actionPlein_cran"/>
+    <addaction name="separator"/>
+    <addaction name="menuPanneaux"/>
+   </widget>
+   <addaction name="menuFlamCreator"/>
+   <addaction name="menuFen_tre"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QDockWidget" name="paramFractale">
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents"/>
+  </widget>
+  <action name="actionNouveau_fichier">
+   <property name="text">
+    <string>Nouveau fractale</string>
+   </property>
+  </action>
+  <action name="actionOuvrir_une_fractale">
+   <property name="text">
+    <string>Ouvrir une fractale</string>
+   </property>
+  </action>
+  <action name="actionFermer_la_fractale">
+   <property name="text">
+    <string>Fermer la fractale</string>
+   </property>
+  </action>
+  <action name="actionEnregistrer">
+   <property name="text">
+    <string>Enregistrer</string>
+   </property>
+  </action>
+  <action name="actionEnregistrer_sous">
+   <property name="text">
+    <string>Enregistrer sous</string>
+   </property>
+  </action>
+  <action name="actionFermer">
+   <property name="text">
+    <string>Fermer</string>
+   </property>
+  </action>
+  <action name="actionImprimer">
+   <property name="text">
+    <string>Imprimer</string>
+   </property>
+  </action>
+  <action name="actionQuitter">
+   <property name="text">
+    <string>Quitter</string>
+   </property>
+   <property name="statusTip">
+    <string>Quitte le programme</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionPlein_cran">
+   <property name="text">
+    <string>Plein écran</string>
+   </property>
+  </action>
+  <action name="actionParam_tres_de_la_fractale">
+   <property name="text">
+    <string>Paramètres de la fractale</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionQuitter</sender>
+   <signal>activated()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionParam_tres_de_la_fractale</sender>
+   <signal>activated()</signal>
+   <receiver>paramFractale</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>37</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
