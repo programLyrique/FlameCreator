@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    flame.cpp
+    flame.cpp \
+    function.cpp
 
 HEADERS  += mainwindow.h \
-    flame.h
+    flame.h \
+    function.h
 
 FORMS    += mainwindow.ui
 
