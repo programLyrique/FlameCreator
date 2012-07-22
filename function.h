@@ -2,6 +2,7 @@
 #define FUNCTION_H
 
 #include <string>
+#include <cmath>
 
 /**
  * @brief The Function class
@@ -27,10 +28,26 @@ public:
      * @return The name of the function
      * @example Horsehoe
      */
-    const std::string& getName() const;
+    std::string getName() const;
+    /**
+     * @brief getExpr
+     * @return An textual expression of the function
+     */
+    std::string getExpr() const;
+    /**
+      * @brief getLatex
+      * @return A Latex expression of the function
+      */
+     std::string getLatex() const;
 
-private:
+protected:
+    /*
+     * Should insert manually , to delimitate the couple, but the functions get*
+     * automatically add f(x,y) = ( <put the necessary> )
+     */
     std::string m_name;
+    std::string m_expr;
+    std::string m_latex;
 
 };
 
@@ -39,9 +56,10 @@ private:
  *
  * The identity function.
  */
-class Identity
+class Identity : Function
 {
 public:
+    Identity();
     virtual void apply(double& x, double& y);
 };
 
@@ -53,7 +71,7 @@ public:
  * @attention We want contractive functions or contractove functions in average at least, so
  * choose a and b strictly lesser than 1
  */
-class Affinity
+class Affinity : Function
 {
 public:
     /**
@@ -98,6 +116,13 @@ private:
     // Why not having these attributes public ?
     double m_fX[3];
     double m_fY[3];
+};
+
+class Sinusoidal : Function
+{
+public:
+    Sinusoidal();
+    virtual void apply(double &x, double &y);
 };
 
 #endif // FUNCTION_H
