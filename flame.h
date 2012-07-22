@@ -13,11 +13,17 @@ public:
      * @param width
      * @param height
      */
-    explicit Flame(long width, long height);
+    explicit Flame(unsigned long width, unsigned long height);
+
+    /**
+     * @brief render
+     */
+    void render();
 
 private:
-    vector< vector<long> > histogram;
-    vector< vector<long> > color;
+    // Use directly an C++ array ?
+    vector< vector<unsigned long> > histogram;
+    vector< vector<unsigned long> > color;
 };
 
 #endif // FLAME_H

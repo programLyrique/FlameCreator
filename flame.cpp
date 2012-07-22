@@ -1,6 +1,10 @@
 #include "flame.h"
 
-Flame::Flame(long width, long height) : histogram(width, vector<long>(height)), color(width, vector<long>(height))
+Flame::Flame(unsigned long width, unsigned long height) : histogram(width, vector<unsigned long>(height)), color(width, vector<unsigned long>(height))
 {
 
+}
+
+void Flame::render()
+{
 }
