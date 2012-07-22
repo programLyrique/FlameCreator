@@ -91,7 +91,7 @@
   </widget>
   <action name="actionNouveau_fichier">
    <property name="text">
-    <string>Nouveau fractale</string>
+    <string>Nouvelle fractale</string>
    </property>
   </action>
   <action name="actionOuvrir_une_fractale">

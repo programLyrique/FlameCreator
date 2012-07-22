@@ -22,7 +22,6 @@ public:
      * @param y
      */
     virtual void apply(double& x, double& y)= 0;
-
     /**
      * @brief getName
      * @return The name of the function
@@ -40,10 +39,15 @@ public:
       */
      std::string getLatex() const;
 
+     /**
+      * @brief ~Function
+      */
+     virtual ~Function(){};
+
 protected:
     /*
      * Should insert manually , to delimitate the couple, but the functions get*
-     * automatically add f(x,y) = ( <put the necessary> )
+     * automatically add "f(x,y) = ( <put the necessary> )"
      */
     std::string m_name;
     std::string m_expr;
@@ -56,7 +60,7 @@ protected:
  *
  * The identity function.
  */
-class Identity : Function
+class Identity : public  Function
 {
 public:
     Identity();
@@ -71,7 +75,7 @@ public:
  * @attention We want contractive functions or contractove functions in average at least, so
  * choose a and b strictly lesser than 1
  */
-class Affinity : Function
+class Affinity : public Function
 {
 public:
     /**
@@ -118,7 +122,7 @@ private:
     double m_fY[3];
 };
 
-class Sinusoidal : Function
+class Sinusoidal : public Function
 {
 public:
     Sinusoidal();
