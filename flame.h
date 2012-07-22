@@ -15,6 +15,7 @@
  * Represents a fractal flame, which can be rendered into an image.
  *
  * @todo Resizing, plotting out of the right area @see toX @see setDimensions
+ * @todo Creating a copy constructor and so on
  */
 class Flame
 {
@@ -74,6 +75,15 @@ public:
      */
     void setDimensions(unsigned long width, unsigned long height);
 
+    /**
+     * @brief setFinalTransform
+     *
+     * The final transform is always called, every time in the loop.
+     *
+     * @param finalTransform
+     */
+    void setFinalTransform(Function *finalTransform);
+
     ~Flame();
 
 protected:
@@ -116,6 +126,9 @@ protected:
 
     // The generating functions
     std::vector< Function * > m_functions;
+
+    // The final transform
+    Function *m_finalTransform;
 };
 
 #endif // FLAME_H

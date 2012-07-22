@@ -4,15 +4,16 @@ using namespace std;
 
 Flame::Flame(unsigned long width, unsigned long height) :
     m_histogram(width, vector<unsigned long>(height)), m_color(width, vector<unsigned long>(height)), m_width(width), m_height(height),
-    m_scale(100), m_image(0)
+    m_scale(100), m_image(0), m_finalTransform(0)
 {
     m_image = new unsigned char[m_height * m_width];
+    m_finalTransform = new Identity();
     srand(time(0)); // And what if the user has already initialized the random generator ?
 }
 
 void Flame::render(unsigned long long nbIterations)
 {
-    // We select a point in the bi-unit square ( [ -1, 1] )
+    // We select a point in the bi-unit square ( [ -1, 1] ) : precision 10^-4
     double x = (rand() % 20000 - 10000) / 20000;
     double y = (rand() % 20000 - 10000) / 20000 ;
     int nbFunctions = m_functions.size();
@@ -22,12 +23,16 @@ void Flame::render(unsigned long long nbIterations)
     {
         int numFonc = rand() % nbFunctions;
         m_functions[numFonc]->apply(x,y);
+        m_finalTransform->apply(x,y);
     }
 
     for(unsigned long long i(0); i < nbIterations ; i++ )
     {
+        //Selecting one of the generating functions
         int numFonc = rand() % nbFunctions;
         m_functions[numFonc]->apply(x,y);
+        //The final transform, always called
+        m_finalTransform->apply(x, y);
         m_histogram[toX(x)][toY(y)] += 1;
     }
 }
@@ -74,9 +79,16 @@ void Flame::setDimensions(unsigned long width, unsigned long height)
     clear();
 }
 
+void Flame::setFinalTransform(Function *finalTransform)
+{
+    delete m_finalTransform;
+    m_finalTransform = finalTransform;
+}
+
 Flame::~Flame()
 {
     delete m_image;
+    delete m_finalTransform;
 }
 
 
