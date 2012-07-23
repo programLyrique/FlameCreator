@@ -6,8 +6,10 @@
 #include <ctime>
 #include <cmath>
 
-
 #include "function.h"
+
+//Precision for the randomly generated numbers
+#define PRECISION 10000
 
 /**
  * @brief The Flame class
@@ -82,7 +84,7 @@ public:
      *
      * @param finalTransform
      */
-    void setFinalTransform(Function *finalTransform);
+    void setFinalTransform(GenFunction *finalTransform);
 
     ~Flame();
 
@@ -110,10 +112,22 @@ protected:
      * Erase all the histograms and such
      */
     void clear();
+    /**
+     * @brief updateColors
+     * @param r red (normalized)
+     * @param g green
+     * @param b blue
+     * @param col The color of the function
+     */
+    void updateColors(float& r,float& g,float& b, int col);
 
     // Use directly an C++ array ?
-    std::vector< std::vector<unsigned long> > m_histogram;
-    std::vector< std::vector<unsigned long> > m_color;
+    // The case (x,y) is incremented by one every time the (x,y) case is got during the chaos game
+    std::vector< std::vector<unsigned long> > m_alpha;
+    // Color components : in [0,255]. Promoted after that to integers.
+    std::vector< std::vector<float> > m_R;
+    std::vector< std::vector<float> > m_G;
+    std::vector< std::vector<float> > m_B;
 
     unsigned long m_width;
     unsigned long m_height;
@@ -125,10 +139,10 @@ protected:
     unsigned char *m_image;
 
     // The generating functions
-    std::vector< Function * > m_functions;
+    std::vector< GenFunction * > m_functions;
 
     // The final transform
-    Function *m_finalTransform;
+    GenFunction *m_finalTransform;
 };
 
 #endif // FLAME_H
