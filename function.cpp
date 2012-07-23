@@ -87,3 +87,105 @@ void Sinusoidal::apply(double &x, double &y)
 }
 
 
+
+
+GenFunction::GenFunction(unsigned int nbFun) : Function(),m_variations(nbFun,0),m_functions(nbFun,new Identity()),m_affinity(0),m_color(0)
+{
+    m_affinity = new Affinity(1,0,0,1,0,0);
+    m_postTransform = new Affinity(1,0,0,1,0,0);
+}
+
+void GenFunction::apply(double &x, double &y)
+{
+    double a(0),b(0);
+
+    for(unsigned int i(0); i <m_variations.size() ; i++)
+    {
+        double x1(x),y1(y);
+
+        // We calculate for the affinity
+        m_affinity->apply(x1, y1);
+        //Then we "compose" the result
+        m_functions[i]->apply(x1, y1);
+        a += m_variations[i] * x1;
+        b += m_variations[i] * y1;
+    }
+    x = a;
+    y = b;
+    //Finally, all that passes through the post transform ( to change the coordinate system, for instance
+    m_postTransform->apply(x,y);
+}
+
+int GenFunction::getColor() const
+{
+    return m_color;
+}
+
+void GenFunction::setColor(int color)
+{
+    m_color = color;
+}
+
+void GenFunction::setAffinity(Affinity affinity)
+{
+    m_affinity = new Affinity(affinity);
+}
+
+void GenFunction::setPostTransform(Affinity affinity)
+{
+    m_postTransform = new Affinity(affinity); // Need to destroy the post transform et the pre transform ?
+}
+
+void GenFunction::setFunction(unsigned int num, Function *function)
+{
+    if( num < m_functions.size())
+    {
+        m_functions[num] = function;
+    }
+}
+
+GenFunction::~GenFunction()
+{
+    delete m_affinity;
+    delete m_postTransform;
+}
+
+char GenFunction::toAlpha(int color)
+{
+    return (color >> 24) & 0xff;
+}
+
+char GenFunction::toRed(int color)
+{
+    return (color >> 16) & 0xff;
+}
+
+char GenFunction::toGreen(int color)
+{
+    return (color >> 8) & 0xff;
+}
+
+char GenFunction::toBlue(int color)
+{
+    return color & 0xff;
+}
+
+int GenFunction::toColor(char alpha, char red, char green, char blue)
+{
+    return (alpha << 24) & (red << 16) & (green << 8) & blue;
+}
+
+
+Spherical::Spherical() : Function()
+{
+    m_name="Spherical";
+    m_expr="1/r^2 * x, 1/ r^2 * y";
+    m_latex=" \frac{x}{r^2}, \frac{y}{r^2}";
+}
+
+void Spherical::apply(double &x, double &y)
+{
+    double rCarre = x*x + y*y;
+    x = x / rCarre;
+    y = y / rCarre;
+}

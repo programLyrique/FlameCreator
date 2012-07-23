@@ -3,6 +3,7 @@
 
 #include <string>
 #include <cmath>
+#include <vector>
 
 /**
  * @brief The Function class
@@ -12,7 +13,7 @@
 class Function
 {
 public:
-    Function();
+    explicit Function();
 
     /**
      * @brief apply
@@ -59,11 +60,13 @@ protected:
  * @brief The Identity class
  *
  * The identity function.
+ *
+ * @todo Identity is an affinity.
  */
 class Identity : public  Function
 {
 public:
-    Identity();
+    explicit Identity();
     virtual void apply(double& x, double& y);
 };
 
@@ -90,13 +93,13 @@ public:
      * @param c1
      * @param c2
      */
-    Affinity(double a1=0, double a2=0, double b1=0, double b2=0, double c1=0, double c2=0);
+    explicit Affinity(double a1=0, double a2=0, double b1=0, double b2=0, double c1=0, double c2=0);
 
     /**
      * @brief getFX
      * @return an array with a1, b1, c1
      */
-    const double *getFX() const;
+    const double *getFX() const;//Mhummmmm... returning a pointer to a private attribute ?
     /**
      * @brief getFY
      * @return an array with a2, b2, c2
@@ -122,11 +125,116 @@ private:
     double m_fY[3];
 };
 
+/**
+ * @brief The Sinusoidal class
+ *
+ * f(x, y) = (sin(x), sin(y))
+ */
 class Sinusoidal : public Function
 {
 public:
-    Sinusoidal();
+    explicit Sinusoidal();
+    virtual void apply(double& x, double& y);
+};
+
+/**
+ * @brief The Spherical class
+ *
+ * f(x,y) = 1/r^2 * (x,y)
+ */
+class Spherical : public Function
+{
+public:
+    explicit Spherical();
+    virtual void apply(double& x, double& y);
+};
+
+class GenFunction : public Function
+{
+public:
+    explicit GenFunction(unsigned int nbFun);
     virtual void apply(double &x, double &y);
+
+    /**
+     * @brief getColom_variations@return the color of the function in ARGB
+     */
+    int getColor() const;
+    /**
+     * @brief setColor
+     * @param color ARGB color
+     */
+    void setColor(int color);
+    /**
+     * @brief setAffinity
+     * @param affinity : the affinity which is composed in the functions
+     * default : the affine identity
+     */
+    void setAffinity(Affinity affinity);
+    /**
+     * @brief setPostTransform
+     * @param affinity : the post transform affinity in which the previous resulting function is applied.
+     * Default : the affine identity.
+     */
+    void setPostTransform(Affinity affinity);
+    /**
+     * @brief setFunction
+     * @param num : from 0 to the number of functions - 1. If num >= number of functions,
+     * does nothing.
+     * @param function : the function to set
+     */
+    void setFunction(unsigned int num, Function *function);
+
+    ~GenFunction();
+
+    //Maybe creating a class to manipulate colors ? But too specialized ?
+
+    /**
+     * @brief toAlpha
+     * @param color
+     * @return the alphe component of the ARGB color
+     */
+    static char toAlpha(int color);
+    /**
+     * @brief toRed
+     * @param color
+     * @return the red component of the ARGB color
+     */
+    static char toRed(int color);
+    /**
+     * @brief toGreen
+     * @param color
+     * @return the green component of the ARGB color
+     */
+    static char toGreen(int color);
+    /**
+     * @brief toBlue
+     * @param color
+     * @return the blue component of the ARGB color
+     */
+    static char toBlue(int color);
+
+    /**
+     * @brief toColor
+     * @param alpha
+     * @param red
+     * @param green
+     * @param blue
+     * @return the ARGB color from (alpha, red, green, blue)
+     */
+    static int toColor(char alpha, char red, char green, char blue);
+
+private:
+    //The weight of the generating functions, their sum will be normalized
+    std::vector<unsigned int> m_variations;
+    //The associated functions (a priori, max 49)
+    std::vector<Function *> m_functions;
+    //The affinity which is composed in each functions
+    Affinity *m_affinity;
+    //The affine post transform, in which are applied the previous resulting function
+    Affinity *m_postTransform;
+    // Color associated to the generating function, in ARGB
+    int m_color;
+
 };
 
 #endif // FUNCTION_H
